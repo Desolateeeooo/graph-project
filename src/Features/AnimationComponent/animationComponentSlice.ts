@@ -50,14 +50,19 @@ const animationComponentSLice = createSlice({
 	initialState: initialState,
 	reducers: {
 			addVertex: (state, action: PayloadAction<IAddVertex>) => {
+				const stateCopy = state;
 				const newVertex = action.payload.vertexValue;
-				state.addVertex(newVertex);
+				
+				stateCopy.addVertex(newVertex);
+				return stateCopy;
 			},
 			removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
+				const stateCopy = state;
 				const vertexToRemove = state.getVertexByValue(action.payload.vertexValue);
 
 				if (vertexToRemove) {
-					state.removeVertex(vertexToRemove);
+					stateCopy.removeVertex(vertexToRemove);
+					return stateCopy;
 				}
 			}
 	}

@@ -1,4 +1,4 @@
-import Edge from "./edge";
+import Edge from "./edge.ts";
 
 class Vertex {
 	readonly data: number;

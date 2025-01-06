@@ -1,4 +1,4 @@
-import Vertex from './vertex';
+import Vertex from './vertex.ts';
 
 class Edge {
 	start: Vertex;
