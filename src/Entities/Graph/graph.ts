@@ -1,7 +1,6 @@
-import Vertex from './vertex.ts';
+import Vertex from './vertex';
 
-type Matrix = number[][];
-
+// type Matrix = number[][];
 class Graph {
 	vertices: Vertex[];
 	isDirected: boolean;
@@ -54,49 +53,7 @@ class Graph {
 	getVertexByValue(value: number): Vertex | undefined {
 		return this.vertices.find(vertex => vertex.data === value);
 	}
-
-	print(): void {
-		const vertexList = this.vertices;
-		vertexList.forEach(vertex => vertex.print());
-	}
-
-	getAdjacencyMatrix(): Matrix {
-		const vertexMap = this.vertices.map(v => v.data);
-		const size = vertexMap.length;
-		const matrix: Matrix = Array.from({ length: size }, () => Array(size).fill(0));
-
-		this.vertices.forEach((vertex, i) => {
-			vertex.edges.forEach(edge => {
-				const j = vertexMap.indexOf(edge.end.data);
-				if (j !== -1) {
-					matrix[i][j] = this.isWeighted ? edge.weight || 1 : 1;
-				}
-			});
-		});
-
-		return matrix;
-	}
-
-	getIncidenceMatrix(): Matrix {
-		const vertexMap = this.vertices.map(v => v.data);
-		const edgeList = this.vertices.flatMap(vertex => vertex.edges);
-		const matrix: Matrix = Array.from({ length: vertexMap.length }, () => Array(edgeList.length).fill(0));
-
-		edgeList.forEach((edge, edgeIndex) => {
-			const startIndex = vertexMap.indexOf(edge.start.data);
-			const endIndex = vertexMap.indexOf(edge.end.data);
-
-			if (startIndex !== -1) {
-				matrix[startIndex][edgeIndex] = this.isWeighted ? edge.weight || 1 : 1;
-			}
-
-			if (endIndex !== -1) {
-				matrix[endIndex][edgeIndex] = this.isDirected ? -1 : this.isWeighted ? edge.weight || 1 : 1;
-			}
-		});
-
-		return matrix;
-	}
+	
 }
 
 export default Graph;

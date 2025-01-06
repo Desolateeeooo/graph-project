@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import animationComponentSLice from '../../Features/AnimationComponent/animationComponentSlice.ts';
+import animationComponentSlice from '../../Features/AnimationComponent/animationComponentSlice';
 
 export type AppRootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
-    animationComponentSLice: animationComponentSLice,
+    animationComponentSLice: animationComponentSlice,
 });
 
 export const store = configureStore({

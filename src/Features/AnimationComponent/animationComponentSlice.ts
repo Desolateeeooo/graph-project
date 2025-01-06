@@ -1,76 +1,99 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import Graph from "../../Entities/Graph/graph"
 import { IAddVertex, IRemoveVertex } from "./animationComponentSlice_types";
+import { IGraph, IVertex, IEdge } from "./animationComponentSlice_types";
+import { createVertex } from "../helperFunctions/createVertex";
+import { addEdge } from "../helperFunctions/addEdge";
 
-const initialState = new Graph(false, true);
+const vertexOne: IVertex = createVertex(1, []);
+const vertexTwo: IVertex = createVertex(2, []);
+const vertexThree: IVertex = createVertex(3, []);
+const vertexFour: IVertex = createVertex(4, []);
+const vertexFive: IVertex = createVertex(5, []);
+const vertexSix: IVertex = createVertex(6, []);
+const vertexSeven: IVertex = createVertex(7, []);
+
+
+const initialState: IGraph = {
+	isDirected: false,
+	isWeighted: true,
+	vertices: [
+		vertexOne, vertexTwo, vertexThree, 
+		vertexFour, vertexFive, vertexSix, vertexSeven
+	]
+}
+
+// Edge from v1 to v2 with weight 500
+const edge1To2 = addEdge(false, vertexOne, vertexTwo, 500);
+vertexOne.edges.push(edge1To2[0]);
+vertexTwo.edges.push(edge1To2[1]);
+
+// Edge from v1 to v6 with weight 600
+const edge1To6 = addEdge(false, vertexOne, vertexSix, 600);
+vertexOne.edges.push(edge1To6[0]);
+vertexSix.edges.push(edge1To6[1]);
+
+// Edge from v1 to v5 with weight 50
+const edge1To5 = addEdge(false, vertexOne, vertexFive, 50);
+vertexOne.edges.push(edge1To5[0]);
+vertexFive.edges.push(edge1To5[1]);
+
+// Edge from v2 to v6 with weight 100
+const edge2To6 = addEdge(false, vertexTwo, vertexSix, 100);
+vertexTwo.edges.push(edge2To6[0]);
+vertexSix.edges.push(edge2To6[1]);
+
+// Edge from v2 to v5 with weight 400
+const edge2To5 = addEdge(false, vertexTwo, vertexFive, 600);
+vertexTwo.edges.push(edge2To5[0]);
+vertexFive.edges.push(edge2To5[1]);
 	
-initialState.addVertex(1);
-initialState.addVertex(2);
-initialState.addVertex(3);
-initialState.addVertex(4);
-initialState.addVertex(5);
-initialState.addVertex(6);
-initialState.addVertex(7);
+// Edge from v2 to v3 with weight 300
+const edge2To3 = addEdge(false, vertexTwo, vertexThree, 300);
+vertexTwo.edges.push(edge2To3[0]);
+vertexThree.edges.push(edge2To3[1]);
 
-const vertexOne = initialState.getVertexByValue(1);
-const vertexTwo = initialState.getVertexByValue(2);
-const vertexThree = initialState.getVertexByValue(3);
-const vertexFour = initialState.getVertexByValue(4);
-const vertexFive = initialState.getVertexByValue(5);
-const vertexSix = initialState.getVertexByValue(6);
-const vertexSeven = initialState.getVertexByValue(7);
+// Edge from v3 to v5 with weight 550
+const edge3To5 = addEdge(false, vertexThree, vertexFive, 550);
+vertexThree.edges.push(edge3To5[0]);
+vertexFive.edges.push(edge3To5[1]);
 
-	
-// VerteOne's Edges
-initialState.addEdge(vertexOne, vertexTwo, 500);
-initialState.addEdge(vertexOne, vertexSix, 600);
-initialState.addEdge(vertexOne, vertexFive, 50);
+// Edge from v3 to v4 with weight 200
+const edge3To4 = addEdge(false, vertexThree, vertexFour, 200);
+vertexThree.edges.push(edge3To4[0]);
+vertexFour.edges.push(edge3To4[1]);
 
-// VertexTwo's Edge
-initialState.addEdge(vertexTwo, vertexSix, 100)
-initialState.addEdge(vertexTwo, vertexFive, 400)
-initialState.addEdge(vertexTwo, vertexThree, 300);
-	
-// VertexThree's Edges
-initialState.addEdge(vertexThree, vertexFive, 550);
-initialState.addEdge(vertexThree, vertexFour, 200);
+// Edge from v4 to v5 with weight 450
+const edge4To5 = addEdge(false, vertexFour, vertexFive, 450);
+vertexFour.edges.push(edge4To5[0]);
+vertexFive.edges.push(edge4To5[1]);
 
-// VertexFour's Edges
-initialState.addEdge(vertexFour, vertexFive, 450);
-	
-// VertexFive's Edges
-initialState.addEdge(vertexFive, vertexSeven, 500);
-	
-// VertexSix's Edges
-initialState.addEdge(vertexSix, vertexSeven, 700);
+// Edge from v5 to v7 with weight 500
+const edge5To7 = addEdge(false, vertexFive, vertexSeven, 500);
+vertexFive.edges.push(edge5To7[0]);
+vertexSeven.edges.push(edge5To7[1]);
+
+// Edge from v6 to v7 with weight 700
+const edge6To7 = addEdge(false, vertexSix, vertexSeven, 700);
+vertexSix.edges.push(edge6To7[0]);
+vertexSeven.edges.push(edge6To7[1]);
 
 
-const animationComponentSLice = createSlice({
-	name: "animationComponent",
-	initialState: initialState,
-	reducers: {
-			addVertex: (state, action: PayloadAction<IAddVertex>) => {
-				const stateCopy = state;
-				const newVertex = action.payload.vertexValue;
-				
-				stateCopy.addVertex(newVertex);
-				return stateCopy;
-			},
-			removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
-				const stateCopy = state;
-				const vertexToRemove = state.getVertexByValue(action.payload.vertexValue);
+const animationComponentSlice = createSlice({
+  name: "animationComponent",
+  initialState: initialState,
+  reducers: {
+    addVertex: (state, action: PayloadAction<IAddVertex>) => {
 
-				if (vertexToRemove) {
-					stateCopy.removeVertex(vertexToRemove);
-					return stateCopy;
-				}
-			}
-	}
+    },
+    removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
+
+    },
+  },
 });
 
 export const {
 	addVertex,
 	removeVertex,
-} = animationComponentSLice.actions;
+} = animationComponentSlice.actions;
 
-export default animationComponentSLice.reducer;
+export default animationComponentSlice.reducer;
