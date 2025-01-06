@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import Graph from "../../Entities/Graph/graph.ts"
+import { IAddVertex, IRemoveVertex } from "./animationComponentSlice_types.ts";
 
 const initialState = new Graph(false, true);
 	
@@ -48,8 +49,23 @@ const animationComponentSLice = createSlice({
 	name: "animationComponent",
 	initialState: initialState,
 	reducers: {
+			addVertex: (state, action: PayloadAction<IAddVertex>) => {
+				const newVertex = action.payload.vertexValue;
+				state.addVertex(newVertex);
+			},
+			removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
+				const vertexToRemove = state.getVertexByValue(action.payload.vertexValue);
 
+				if (vertexToRemove) {
+					state.removeVertex(vertexToRemove);
+				}
+			}
 	}
-})
+});
+
+export const {
+	addVertex,
+	removeVertex,
+} = animationComponentSLice.actions;
 
 export default animationComponentSLice.reducer;
