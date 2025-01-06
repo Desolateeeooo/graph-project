@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './Application/App.tsx';
+import App from './Application/App';
 import { Provider } from 'react-redux';
-import reportWebVitals from './Shared/reportWebVitals.ts';
-import { store } from './Shared/Store/store.ts'
+import reportWebVitals from './Shared/reportWebVitals';
+import { store } from './Shared/Store/store'
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
 	<React.StrictMode>
-		<Provider store={store} children={<App />}>
+		<Provider store={store}>
 			<App />
 		</Provider>
 	</React.StrictMode>

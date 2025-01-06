@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                  // Use ES6 syntax
+    "module": "ESNext",               // Use ESNext for module resolution
+    "jsx": "react-jsx",               // Use the new JSX runtime
+    "strict": true,                   // Enable strict type-checking
+    "esModuleInterop": true,          // Allow default imports for CommonJS modules
+    "skipLibCheck": true,             // Skip type checks for libraries
+    "moduleResolution": "node"        // Resolve modules using Node.js rules
+  },
+  "include": ["src/**/*"],            // Include all files in the src folder
+  "exclude": ["node_modules"]         // Exclude node_modules
+}

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import Graph from "../../Entities/Graph/graph.ts"
-import { IAddVertex, IRemoveVertex } from "./animationComponentSlice_types.ts";
+import Graph from "../../Entities/Graph/graph"
+import { IAddVertex, IRemoveVertex } from "./animationComponentSlice_types";
 
 const initialState = new Graph(false, true);
 	
