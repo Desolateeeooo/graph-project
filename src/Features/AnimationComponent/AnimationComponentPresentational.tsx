@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { IFormattedData } from '../helperFunctions/convertGraphToFormattedData';
-import TestForceGraph from './TestForceGraph';
+import { IFormattedData } from '../helperFunctions/need to fix/convertGraphToFormattedData';
+import TestForceGraph from './need to fix/TestForceGraph';
 import TestGraph from './TestGraph';
 
-interface IAnimationComponentPresentationalProps {
-	graphData: IFormattedData;
-}
-
-const AnimationComponentPresentational = (props: IAnimationComponentPresentationalProps) => {
+const AnimationComponentPresentational = (props) => {
 	return (
-		<TestForceGraph 
-			graphData={props.graphData}
-		/>
+
 	);
 }
 

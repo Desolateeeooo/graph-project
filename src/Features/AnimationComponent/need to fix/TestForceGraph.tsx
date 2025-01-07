@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
-import { ForceGraph } from "../helperFunctions/forceGraph";
-import { IFormattedData } from "../helperFunctions/convertGraphToFormattedData";
+import { ForceGraph } from "../../helperFunctions/need to fix/forceGraph";
+import { IFormattedData } from "../../helperFunctions/need to fix/convertGraphToFormattedData";
 
 interface ITestForceGraphProps {
 	graphData: IFormattedData;

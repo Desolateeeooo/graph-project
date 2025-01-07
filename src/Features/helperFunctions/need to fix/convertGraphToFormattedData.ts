@@ -1,4 +1,4 @@
-import { IGraph } from "../AnimationComponent/animationComponentSlice_types";
+import { IGraph } from "../../AnimationComponent/animationComponentSlice_types";
 
 interface IGraphFormattedDataNode {
 	id: string;
@@ -47,6 +47,3 @@ export function convertGraphToFormattedData(graph: IGraph): IFormattedData {
 
   return formattedData;
 }
-
-// Example Usage
-// const formattedData = convertGraphToFormattedData();
