@@ -5,7 +5,7 @@ import animationComponentSlice from '../../Features/AnimationComponent/animation
 export type AppRootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
-    animationComponentSLice: animationComponentSlice,
+    animationComponentSlice: animationComponentSlice,
 });
 
 export const store = configureStore({

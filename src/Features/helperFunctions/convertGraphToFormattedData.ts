@@ -13,12 +13,12 @@ interface IGraphFormattedDataLink {
 	label: string;
 }
 
-interface IFormattedData {
+export interface IFormattedData {
 	nodes: IGraphFormattedDataNode[];
 	links: IGraphFormattedDataLink[];
 }
 
-function convertGraphToFormattedData(graph: IGraph) {
+export function convertGraphToFormattedData(graph: IGraph): IFormattedData {
   const formattedData: IFormattedData = {
     nodes: [],
     links: []
