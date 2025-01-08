@@ -6,6 +6,7 @@ export type AppRootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
     animationComponentSlice: animationComponentSlice,
+		// sketch: sketchSlice
 });
 
 export const store = configureStore({

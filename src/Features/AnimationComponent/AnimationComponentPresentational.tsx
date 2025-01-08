@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { IFormattedData } from '../helperFunctions/need to fix/convertGraphToFormattedData';
-import TestForceGraph from './need to fix/TestForceGraph';
-import TestGraph from './TestGraph';
+import P5Sketch from '../../Entities/P5Sketch/P5Sketch';
+import { IGraph } from '../../Shared/Types/animationComponentSlice_types';
 
-const AnimationComponentPresentational = (props) => {
+interface IAnimationComponentPresentationalProps {
+	graph: IGraph;
+}
+
+const AnimationComponentPresentational = (props: IAnimationComponentPresentationalProps) => {
 	return (
-
+		<P5Sketch 
+			graph={props.graph}
+		/>
 	);
 }
 

@@ -1,4 +1,4 @@
-import { IGraph } from "../../AnimationComponent/animationComponentSlice_types";
+import { IGraph } from "../../../Shared/Types/animationComponentSlice_types";
 
 interface IGraphFormattedDataNode {
 	id: string;

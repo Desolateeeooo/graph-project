@@ -1,4 +1,4 @@
-import Vertex from "../../Entities/Graph/vertex";
+import Vertex from "../../Entities/GraphClass/vertex";
 
 const depthFirstTraversal = (start: Vertex, callback: (vertex: Vertex) => void, visitedVertices = [start]) => {
 	callback(start);
