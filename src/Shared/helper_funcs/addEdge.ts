@@ -1,4 +1,4 @@
-import { IEdge, IVertex } from "../../Shared/Types/animationComponentSlice_types"
+import { IEdge, IVertex } from "../Types/animationComponentSlice_types"
 
 export const addEdge = (isDirected: boolean, vertexOne: IVertex, vertexTwo: IVertex, weight: number | null): IEdge[] => {
 	if (isDirected) {

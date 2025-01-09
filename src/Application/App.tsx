@@ -8,7 +8,6 @@ function App() {
       <header className="App-header">
         {/* <Navigation></Navigation>
 				<InteractiveMenu></InteractiveMenu>
-				<Screen></Screen>
 				<Footer></Footer> */}
 
 				<AnimationComponentContainer />
