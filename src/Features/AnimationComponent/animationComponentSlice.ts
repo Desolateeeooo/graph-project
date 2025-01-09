@@ -43,7 +43,7 @@ vertexTwo.edges.push(edge2To6[0]);
 vertexSix.edges.push(edge2To6[1]);
 
 // Edge from v2 to v5 with weight 400
-const edge2To5 = addEdge(false, vertexTwo, vertexFive, 600);
+const edge2To5 = addEdge(false, vertexTwo, vertexFive, 400);
 vertexTwo.edges.push(edge2To5[0]);
 vertexFive.edges.push(edge2To5[1]);
 	
