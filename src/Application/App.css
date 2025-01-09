@@ -9,6 +9,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+	gap: 50px;
   font-size: calc(10px + 2vmin);
   color: white;
 }
