@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import p5 from "p5";
-import { IGraph } from "../../../Shared/Types/animationComponentSlice_types";
+import { IGraph, IVertex } from "../../../Shared/Types/animationComponentSlice_types";
+import depthFirstTraversal from "../../../Shared/helper_funcs/dfs";
 
 interface GraphProps {
 	graph: IGraph;
@@ -8,6 +9,14 @@ interface GraphProps {
 
 const Graph: React.FC<GraphProps> = ({ graph }) => {
 	const sketchRef = useRef<HTMLDivElement>(null);
+	const traversalArray: { from: IVertex, to: IVertex }[] = [];
+
+
+	depthFirstTraversal(graph.vertices[0], (vertex) => {
+		console.log(vertex.data);
+	}, traversalArray);
+
+	console.log(traversalArray);
 
 	useEffect(() => {
 		const sketch = (p: p5) => {

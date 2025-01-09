@@ -85,15 +85,11 @@ const animationComponentSlice = createSlice({
     addVertex: (state, action: PayloadAction<IAddVertex>) => {
 
     },
-    removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
-
-    },
   },
 });
 
 export const {
 	addVertex,
-	removeVertex,
 } = animationComponentSlice.actions;
 
 export default animationComponentSlice.reducer;
