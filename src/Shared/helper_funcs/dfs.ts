@@ -1,6 +1,6 @@
-import Vertex from "../../Entities/GraphClass/vertex";
+import { IVertex } from "../Types/animationComponentSlice_types";
 
-const depthFirstTraversal = (start: Vertex, callback: (vertex: Vertex) => void, visitedVertices = [start]) => {
+const depthFirstTraversal = (start: IVertex, callback: (vertex: IVertex) => void, visitedVertices = [start]) => {
 	callback(start);
 
 	start.edges.forEach((edge) => {
