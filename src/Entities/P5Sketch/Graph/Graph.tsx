@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import p5 from "p5";
 import { IGraph, IVertex } from "../../../Shared/Types/animationComponentSlice_types";
-import depthFirstTraversal from "../../../Shared/helper_funcs/dfs";
 
 interface GraphProps {
 	graph: IGraph;
@@ -9,14 +8,13 @@ interface GraphProps {
 
 const Graph: React.FC<GraphProps> = ({ graph }) => {
 	const sketchRef = useRef<HTMLDivElement>(null);
+
 	const traversalArray: { from: IVertex, to: IVertex }[] = [];
+	// depthFirstTraversal(graph.vertices[0], (vertex) => {
+	// 	console.log(vertex.data);
+	// }, traversalArray);
 
-
-	depthFirstTraversal(graph.vertices[0], (vertex) => {
-		console.log(vertex.data);
-	}, traversalArray);
-
-	console.log(traversalArray);
+	// console.log(traversalArray);
 
 	useEffect(() => {
 		const sketch = (p: p5) => {
@@ -44,291 +42,127 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 					p.line(0, 100 + lineY * 100, p.height, 100 + lineY * 100);
 				}
 
+				// Vertex 2 Edges
 				// Edge 2 to 1
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(500, 100, 200, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[1].edges[0].weight) {
-					p.text(
-						graph.vertices[1].edges[0].weight.toString(),
-						(500 + 200) / 2 - 20,
-						(100 + 150) / 2 + 20
-					);
-				}
+				drawEdge(p, 500, 100, 200, 150, 1, 0, "subtract", 20, 0, "add", 0, 20);
 
 				// Edge 2 to 3
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(500, 100, 700, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[1].edges[3].weight) {
-					p.text(
-						graph.vertices[1].edges[3].weight.toString(),
-						(500 + 700) / 2 - 20,
-						(100 + 150) / 2 + 20
-					);
-				}
-
+				drawEdge(p, 500, 100, 700, 150, 1, 3, "subtract", 20, 0, "add", 0, 20);
 
 				// Edge 4 to 3
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(700, 350, 700, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[3].edges[0].weight) {
-					p.text(
-						graph.vertices[3].edges[0].weight.toString(),
-						(700 + 700) / 2 - 20,
-						(350 + 150) / 2
-					);
-				}
-
+				drawEdge(p, 700, 350, 700, 150, 3, 0, "subtract", 20, 0);
 
 				// Edge 5 to 2
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(450, 350, 500, 100);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[4].edges[1].weight) {
-					p.text(
-						graph.vertices[4].edges[1].weight.toString(),
-						(450 + 500) / 2 - 20,
-						(350 + 100) / 2 - 10
-					);
-				}
-
+				drawEdge(p, 450, 350, 500, 100, 4, 1, "subtract", 20, 0, "subtract", 10);
 
 				// Edge 5 to 4
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(450, 350, 700, 350);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[4].edges[3].weight) {
-					p.text(
-						graph.vertices[4].edges[3].weight.toString(),
-						(450 + 700) / 2 - 20,
-						(350 + 350) / 2 - 10
-					);
-				}
+				drawEdge(p, 450, 350, 700, 350, 4, 3, "subtract", 20, 0, "subtract", 10);
 
 				// Edge 5 to 3
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(450, 350, 700, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[4].edges[2].weight) {
-					p.text(
-						graph.vertices[4].edges[2].weight.toString(),
-						(450 + 700) / 2 - 20,
-						(350 + 150) / 2 - 10
-					);
-				}
+				drawEdge(p, 450, 350, 700, 150, 4, 2, "subtract", 20, 0, "subtract", 10);
 
 				// Edge 5 to 1
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(450, 350, 200, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[4].edges[0].weight) {
-					p.text(
-						graph.vertices[4].edges[0].weight.toString(),
-						(450 + 200) / 2 + 30,
-						(350 + 150) / 2 - 30
-					);
-				}
-
+				drawEdge(p, 450, 350, 200, 150, 4, 0, "subtract", 10, 0, "subtract", 30);
 
 				// Edge 5 to 7
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(450, 350, 200, 650);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[4].edges[4].weight) {
-					p.text(
-						graph.vertices[4].edges[4].weight.toString(),
-						(450 + 200) / 2 + 20,
-						(350 + 650) / 2 + 20
-					);
-				}
+				drawEdge(p, 450, 350, 200, 650, 4, 4, "add", 0, 20, "add", 0, 20);
 
 				// Edge 6 to 1
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(150, 450, 200, 150);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[5].edges[0].weight) {
-					p.text(
-						graph.vertices[5].edges[0].weight.toString(),
-						(150 + 200) / 2 - 20,
-						(450 + 150) / 2 + 20
-					);
-				}
+				drawEdge(p, 150, 450, 200, 150, 5, 0, "subtract", 20, 0, "add", 0, 20);
 
 				// Edge 6 to 2
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(150, 450, 500, 100);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[5].edges[1].weight) {
-					p.text(
-						graph.vertices[5].edges[1].weight.toString(),
-						(150 + 500) / 2 - 10,
-						(450 + 100) / 2 + 50
-					);
-				}
+				drawEdge(p, 150, 450, 500, 100, 5, 1, "subtract", 10, 0, "add", 0, 50);
 
 				// Edge 6 to 7
-				p.stroke('green');
-				p.strokeWeight(5);
-				p.line(150, 450, 200, 650);
-
-				p.noStroke();
-				p.fill(50);
-				p.textSize(14);
-				if (graph.vertices[6].edges[1].weight) {
-					p.text(
-						graph.vertices[6].edges[1].weight.toString(),
-						(150 + 200) / 2 - 20,
-						(450 + 650) / 2
-					);
-				}
-
-
-
+				drawEdge(p, 150, 450, 200, 650, 6, 1, "subtract", 20);
 
 				// Vertex 1
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(200, 150, 70);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[0].data.toString(), 200, 150);
+				drawVertex(p, 200, 150, 70, 0);
 
 				// Vertex 2
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(500, 100, 70);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[1].data.toString(), 500, 100);
-
+				drawVertex(p, 500, 100, 70, 1);
 
 				// Vertex 3
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(700, 150, 70);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[2].data.toString(), 700, 150);
+				drawVertex(p, 700, 150, 70, 2);
 
 				// Vertex 4
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(700, 350, 70);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[3].data.toString(), 700, 350);
-
+				drawVertex(p, 700, 350, 70, 3);
 
 				// Vertex 5
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(450, 350, 70);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[4].data.toString(), 450, 350);
+				drawVertex(p, 450, 350, 70, 4);
 
 				// Vertex 6
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(150, 450, 70);
-				p.fill(255);
-
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[5].data.toString(), 150, 450);
-
+				drawVertex(p, 150, 450, 70, 5);
 
 				// Vertex 7
-				p.fill(200, 100, 100);
-				p.noStroke();
-				p.circle(200, 650, 70);
+				drawVertex(p, 200, 650, 70, 6);
 
-				p.fill(255);
-				p.textSize(16);
-				p.text(graph.vertices[6].data.toString(), 200, 650);
-
-				// graph.vertices.forEach((vertex) => {
-				//   vertex.edges.forEach((edge) => {
-				//     const { start, end, weight } = edge;
-
-				//     // Draw the edge
-				// 		p.line(start.data * 100, start.data * 100, end.data * 100, end.data * 100)
-
-
-				//     // Draw the weight (if present)
-				//     if (weight !== null) {
-				//       const midX = (start.data * 100 + end.data * 100) / 2;
-				//       const midY = (start.data * 100 + end.data * 100) / 2;
-				//       p.noStroke();
-				//       p.fill(50);
-				//       p.textSize(14);
-				//       p.text(weight.toString(), midX, midY);
-				//     }
-				//   });
-				// });
-
-				// Draw vertices
-				// graph.vertices.forEach((v, index) => {
-				//   const x = v.data * 100;
-				//   const y = v.data * 100;
-
-				//   p.fill(200, 100, 100);
-				//   p.noStroke();
-				//   p.ellipse(x, y, 40, 40);
-
-				//   p.fill(255);
-				//   p.textSize(16);
-				//   p.text(index + 1, x, y); // Label the vertex
-				// });
 			};
 		};
+
+		const drawVertex = (p: p5, x: number, y: number, width: number, vertexIndex: number) => {
+			p.fill(200, 100, 100);
+			p.noStroke();
+			p.circle(x, y, width);
+
+			p.fill(255);
+			p.textSize(16);
+			p.text(graph.vertices[vertexIndex].data.toString(), x, y);
+		}
+
+		const drawEdge = (
+			p: p5,
+			x1: number,
+			y1: number,
+			x2: number,
+			y2: number,
+			verticesIndex: number,
+			edgesIndex: number,
+			xCalculation?: "subtract" | "add",
+			subtractX?: number,
+			addX?: number,
+			yCalculation?: "subtract" | "add",
+			subtractY?: number,
+			addY?: number,
+		) => {
+
+			p.stroke('green');
+			p.strokeWeight(5);
+			p.line(x1, y1, x2, y2);
+
+			p.noStroke();
+			p.fill(50);
+			p.textSize(14);
+
+			const weight = graph.vertices[verticesIndex]?.edges[edgesIndex]?.weight;
+			let x: number = (x1 + x2) / 2;
+			let y: number = (y1 + y2) / 2;
+
+			if (xCalculation) {
+				if (xCalculation === "subtract" && subtractX) {
+					x = (x1 + x2) / 2 - subtractX;
+				} else if (xCalculation === "add" && addX) {
+					x = (x1 + x2) / 2 + addX;
+				}
+			}
+
+			if (yCalculation) {
+				if (yCalculation === "subtract" && subtractY) {
+					y = (y1 + y2) / 2 - subtractY;
+				} else if (yCalculation === "add" && addY) {
+					y = (y1 + y2) / 2 + addY;
+				}
+			}
+
+			if (weight !== null && weight !== undefined) {
+				p.text(
+					weight.toString(),
+					x,
+					y
+				);
+			}
+
+		}
 
 		const myP5 = new p5(sketch);
 
