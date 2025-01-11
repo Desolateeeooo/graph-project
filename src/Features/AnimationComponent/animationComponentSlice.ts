@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { IAddVertex, IRemoveVertex } from "../../Shared/Types/animationComponentSlice_types";
+import { IAddVertex } from "../../Shared/Types/animationComponentSlice_types";
 import { IGraph, IVertex } from "../../Shared/Types/animationComponentSlice_types";
 import { createVertex } from "../../Shared/helper_funcs/createVertex";
 import { addEdge } from "../../Shared/helper_funcs/addEdge";

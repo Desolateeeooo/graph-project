@@ -1,20 +1,33 @@
 import React, { useEffect, useRef } from "react";
 import p5 from "p5";
 import { IGraph, IVertex } from "../../../Shared/Types/animationComponentSlice_types";
+import depthFirstTraversal from "../../../Shared/helper_funcs/dfs";
 
 interface GraphProps {
 	graph: IGraph;
 }
 
+interface ILineObject {
+	x1: number;
+	y1: number;
+	x2: number;   // Current end point starts at the starting point
+	y2: number;
+	targetX: number;
+	targetY: number;
+	color: string;
+	started: boolean;
+}
+
 const Graph: React.FC<GraphProps> = ({ graph }) => {
 	const sketchRef = useRef<HTMLDivElement>(null);
+	
+	let speed = 1; // Speed of the line movement
+	let lines: ILineObject[] = []; // Array to store moving line states
+	let dfs = true;
 
-	const traversalArray: { from: IVertex, to: IVertex }[] = [];
-	// depthFirstTraversal(graph.vertices[0], (vertex) => {
-	// 	console.log(vertex.data);
-	// }, traversalArray);
-
-	// console.log(traversalArray);
+	depthFirstTraversal(graph.vertices[0], (vertex: IVertex) => {
+		console.log(vertex.data);
+	});
 
 	useEffect(() => {
 		const sketch = (p: p5) => {
@@ -25,6 +38,33 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 					console.error("sketchRef.current is null or undefined.");
 				}
 				p.textAlign(p.CENTER, p.CENTER);
+
+				const dfsTraversal = [
+					{ from: { x: 200, y: 150 }, to: { x: 500, y: 100 } }, // Vertex 1 -> 2
+					{ from: { x: 500, y: 100 }, to: { x: 150, y: 450 } }, // Vertex 2 -> 6
+					{ from: { x: 150, y: 450 }, to: { x: 200, y: 650 } }, // Vertex 6 -> 7
+					{ from: { x: 200, y: 650 }, to: { x: 450, y: 350 } }, // Vertex 7 -> 5
+					{ from: { x: 450, y: 350 }, to: { x: 700, y: 150 } }, // Vertex 5 -> 3
+					{ from: { x: 700, y: 150 }, to: { x: 700, y: 350 } }, // Vertex 3 -> 4
+				];
+
+				let accumulatedDelay = 0;
+
+				dfsTraversal.forEach(({ from, to }, index) => {
+					const distance = Math.sqrt(
+						Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2)
+					);
+					const duration = distance / speed; // Animation duration based on speed
+
+					// Calculate delay for this line
+					const delay = accumulatedDelay;
+					accumulatedDelay += duration;
+
+					// Add the line animation to the queue
+					setTimeout(() => {
+						lines.push(createLine(from.x, from.y, to.x, to.y, "red"));
+					}, delay * 10); // Convert delay to deciseconds
+				});
 			};
 
 			p.draw = () => {
@@ -42,7 +82,9 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 					p.line(0, 100 + lineY * 100, p.height, 100 + lineY * 100);
 				}
 
-				// Vertex 2 Edges
+				// Draw and animate lines with delay
+				lines.forEach(lineState => drawAndAnimateLine(p, lineState));
+
 				// Edge 2 to 1
 				drawEdge(p, 500, 100, 200, 150, 1, 0, "subtract", 20, 0, "add", 0, 20);
 
@@ -75,6 +117,13 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 
 				// Edge 6 to 7
 				drawEdge(p, 150, 450, 200, 650, 6, 1, "subtract", 20);
+
+				if (dfs) {
+					for (let lineState of lines) {
+						drawAndAnimateLine(p, lineState);
+					}
+				}
+
 
 				// Vertex 1
 				drawVertex(p, 200, 150, 70, 0);
@@ -164,12 +213,42 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 
 		}
 
+		const createLine = (x1: number, y1: number, targetX: number, targetY: number, color: string): ILineObject => {
+			return {
+				x1,
+				y1,
+				x2: x1,
+				y2: y1,
+				targetX,
+				targetY,
+				color,
+				started: false
+			};
+		}
+
+		// Helper function to draw and animate a moving line
+		const drawAndAnimateLine = (p: p5, lineObject: ILineObject) => {
+			p.stroke(lineObject.color);
+			p.strokeWeight(5);
+			p.line(lineObject.x1, lineObject.y1, lineObject.x2, lineObject.y2);
+
+			// Update the position of the moving line's end point
+			let dx = lineObject.targetX - lineObject.x2;
+			let dy = lineObject.targetY - lineObject.y2;
+			let distance = Math.sqrt(dx * dx + dy * dy);
+
+			if (distance > speed) {
+				lineObject.x2 += (dx / distance) * speed; // Normalize and scale by speed
+				lineObject.y2 += (dy / distance) * speed; // Normalize and scale by speed
+			}
+		}
+
 		const myP5 = new p5(sketch);
 
 		return () => {
 			myP5.remove();
 		};
-	}, [graph]);
+	}, [graph, speed]);
 
 	console.log(graph.vertices);
 
