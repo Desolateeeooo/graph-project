@@ -20,10 +20,9 @@ interface ILineObject {
 
 const Graph: React.FC<GraphProps> = ({ graph }) => {
 	const sketchRef = useRef<HTMLDivElement>(null);
-	
+
 	let speed = 1; // Speed of the line movement
 	let lines: ILineObject[] = []; // Array to store moving line states
-	let dfs = true;
 
 	depthFirstTraversal(graph.vertices[0], (vertex: IVertex) => {
 		console.log(vertex.data);
@@ -63,7 +62,7 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 					// Add the line animation to the queue
 					setTimeout(() => {
 						lines.push(createLine(from.x, from.y, to.x, to.y, "red"));
-					}, delay * 10); // Convert delay to deciseconds
+					}, delay * 20); // Convert delay to deciseconds
 				});
 			};
 
@@ -81,9 +80,6 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 				for (let lineY = 0; lineY < 8; lineY++) {
 					p.line(0, 100 + lineY * 100, p.height, 100 + lineY * 100);
 				}
-
-				// Draw and animate lines with delay
-				lines.forEach(lineState => drawAndAnimateLine(p, lineState));
 
 				// Edge 2 to 1
 				drawEdge(p, 500, 100, 200, 150, 1, 0, "subtract", 20, 0, "add", 0, 20);
@@ -118,12 +114,11 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 				// Edge 6 to 7
 				drawEdge(p, 150, 450, 200, 650, 6, 1, "subtract", 20);
 
-				if (dfs) {
-					for (let lineState of lines) {
-						drawAndAnimateLine(p, lineState);
-					}
-				}
 
+				if (graph.dfs) {
+					// Draw and animate lines with delay
+					lines.forEach(lineState => drawAndAnimateLine(p, lineState));
+				}
 
 				// Vertex 1
 				drawVertex(p, 200, 150, 70, 0);

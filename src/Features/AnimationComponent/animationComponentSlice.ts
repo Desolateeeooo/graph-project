@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { IAddVertex } from "../../Shared/Types/animationComponentSlice_types";
+import { IAddVertex, IToggleDFS } from "../../Shared/Types/animationComponentSlice_types";
 import { IGraph, IVertex } from "../../Shared/Types/animationComponentSlice_types";
 import { createVertex } from "../../Shared/helper_funcs/createVertex";
 import { addEdge } from "../../Shared/helper_funcs/addEdge";
@@ -19,7 +19,8 @@ const initialState: IGraph = {
 	vertices: [
 		vertexOne, vertexTwo, vertexThree, 
 		vertexFour, vertexFive, vertexSix, vertexSeven
-	]
+	],
+	dfs: false
 }
 
 // Edge from v1 to v2 with weight 500
@@ -85,11 +86,18 @@ const animationComponentSlice = createSlice({
     addVertex: (state, action: PayloadAction<IAddVertex>) => {
 
     },
+		toggleDFS: (state) => {
+			return {
+				...state,
+				dfs:  state.dfs ? false : true
+			}
+		}
   },
 });
 
 export const {
 	addVertex,
+	toggleDFS,
 } = animationComponentSlice.actions;
 
 export default animationComponentSlice.reducer;

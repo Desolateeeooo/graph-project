@@ -11,6 +11,12 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
     reducer: rootReducer,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware({
+				thunk: true,
+				immutableCheck: false,
+				serializableCheck: false,
+			}),
 });
 
 //Saving store to the window

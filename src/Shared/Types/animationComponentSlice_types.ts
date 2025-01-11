@@ -13,12 +13,14 @@ export interface IGraph {
 	isDirected: boolean;
 	isWeighted: boolean;
 	vertices: IVertex[];
+	dfs: boolean;
 }
 
 export interface IAddVertex {
 	vertexValue: number;
 }
 
-export interface IRemoveVertex {
-	vertexValue: number;
+export interface IToggleDFS {
+	depthFirstSearch: boolean;
 }
+

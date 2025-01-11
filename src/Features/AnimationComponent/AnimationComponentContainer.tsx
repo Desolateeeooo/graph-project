@@ -1,13 +1,14 @@
-import React, { SetStateAction, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {useSelector} from 'react-redux';
 import AnimationComponentPresentational from './AnimationComponentPresentational';
-import { AppRootState } from '../../Shared/Store/store';
-import { IGraph, IVertex } from '../../Shared/Types/animationComponentSlice_types';
-import depthFirstTraversal from '../../Shared/helper_funcs/dfs';
+import { IGraph } from '../../Shared/Types/animationComponentSlice_types';
 
-const AnimationComponentContainer = () => {
-	const graph = useSelector<AppRootState, IGraph>((state) => state.animationComponentSlice);
+interface IAnimationComponentContainerProps {
+	graph: IGraph;
+}
+
+const AnimationComponentContainer = (props: IAnimationComponentContainerProps) => {
+	const {graph} = props;
 
 	return (
 		<AnimationComponentPresentational 

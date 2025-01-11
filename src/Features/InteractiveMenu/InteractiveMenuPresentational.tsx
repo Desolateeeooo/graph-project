@@ -77,16 +77,15 @@ const styles: IStyles = {
   },
 };
 
-const InteractiveMenuPresentational = () => {
+interface IInteractiveMenuPresentational {
+	toggleDFS: () => void;
+}
+
+const InteractiveMenuPresentational = (props: IInteractiveMenuPresentational) => {
 	return (
     <div style={styles.container}>
-			<button style={{...styles.button, backgroundColor: "#FF007F"}}>Print Graph</button>
-
-      <button style={styles.button}>Show Adjacency List</button>
-      <button style={styles.button}>Show Incidence List</button>
 			
-			<button style={styles.button}>Recursive Search</button>
-			
+			<button style={{...styles.button, backgroundColor: "#FF007F"}} onClick={props.toggleDFS}>Toggle Recursive Search</button>
 
       <div style={styles.formContainer}>
         <h4>Add Vertex</h4>
