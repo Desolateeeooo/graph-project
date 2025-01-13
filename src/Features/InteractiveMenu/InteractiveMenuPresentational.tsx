@@ -82,6 +82,11 @@ interface IInteractiveMenuPresentational {
 	updateVertexData: (e: ChangeEvent<HTMLInputElement>) => void;
 	vertexData: string;
 	handleAddVertex: () => void;
+	handleOnChangeAddEdgeTo: (e: ChangeEvent<HTMLInputElement>) => void;
+	handleOnChangeAddEdgeFrom: (e: ChangeEvent<HTMLInputElement>) => void;
+	addEdgeToValue: string;
+	addEdgeFromValue: string;
+	handleAddEdge: () => void;
 } 
 
 const InteractiveMenuPresentational = (props: IInteractiveMenuPresentational) => {
@@ -98,9 +103,9 @@ const InteractiveMenuPresentational = (props: IInteractiveMenuPresentational) =>
 
       <div style={styles.formContainer}>
         <h4>Add Edge</h4>
-        <input type="text" placeholder="From" style={styles.input} />
-        <input type="text" placeholder="To" style={styles.input} />
-        <button style={styles.button}>Add Edge</button>
+        <input type="text" placeholder="From" style={styles.input} onChange={props.handleOnChangeAddEdgeFrom} value={props.addEdgeFromValue}/>
+        <input type="text" placeholder="To" style={styles.input} onChange={props.handleOnChangeAddEdgeTo} value={props.addEdgeToValue}/>
+        <button style={styles.button} onClick={props.handleAddEdge}>Add Edge</button>
       </div>
 
       <div style={styles.formContainer}>

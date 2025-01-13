@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-redeclare */
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { IAddVertex, IToggleDFS } from "../../Shared/Types/animationComponentSlice_types";
+import { IAddVertex, IToggleDFS, IAddEdge } from '../../Shared/Types/animationComponentSlice_types';
 import { IGraph, IVertex } from "../../Shared/Types/animationComponentSlice_types";
 import { createVertex } from "../../Shared/helper_funcs/createVertex";
 import { addEdge } from "../../Shared/helper_funcs/addEdge";
@@ -86,23 +87,42 @@ const animationComponentSlice = createSlice({
     addVertex: (state, action: PayloadAction<IAddVertex>) => {
 			const newVertex = {
 				data: action.payload.data,
-				edges: []
+				edges: [],
+				x: Math.floor(Math.random() * (800 - 400) + 400),
+				y: Math.floor(Math.random() * (800 - 400) + 400),
 			}
 
 			state.vertices.push(newVertex);
     },
+
 		toggleDFS: (state) => {
 			return {
 				...state,
 				dfs:  state.dfs ? false : true
 			}
-		}
+		},
+
+		addEdgeReducer: (state, action: PayloadAction<IAddEdge>) => {
+			const vertexIndexFrom = state.vertices.findIndex((vertex: IVertex) => vertex.data === action.payload.from);
+			const vertexIndexTo = state.vertices.findIndex((vertex: IVertex) => vertex.data === action.payload.to);
+			const weight = Math.floor(Math.random() * 1000);
+
+			const vertexFrom = state.vertices[vertexIndexFrom];
+			const vertexTo = state.vertices[vertexIndexTo];
+
+			if (vertexFrom && vertexTo) {
+				const edge = addEdge(false, vertexFrom , vertexTo, weight);
+				state.vertices[vertexIndexFrom].edges.push(edge[0]);
+				state.vertices[vertexIndexTo].edges.push(edge[1]);
+			}
+		},
   },
 });
 
 export const {
 	addVertex,
 	toggleDFS,
+	addEdgeReducer,
 } = animationComponentSlice.actions;
 
 export default animationComponentSlice.reducer;

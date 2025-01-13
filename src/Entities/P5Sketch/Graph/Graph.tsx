@@ -28,6 +28,10 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 		console.log(vertex.data);
 	});
 
+	const additionalVertexes = graph.vertices.filter((v: IVertex, index: number) => index > 6);
+	console.log(additionalVertexes);
+	
+
 	useEffect(() => {
 		const sketch = (p: p5) => {
 			p.setup = () => {
@@ -80,6 +84,14 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 				for (let lineY = 0; lineY < 8; lineY++) {
 					p.line(0, 100 + lineY * 100, p.height, 100 + lineY * 100);
 				}
+
+				additionalVertexes.forEach((v: IVertex, index: number) => {
+					// const randomX = p.random(400, 800);
+					// const randomY = p.random(400, 800);
+					if (v.x && v.y) {
+						drawVertex(p, v.x, v.y, 70, index + 7);
+					}
+				})
 
 				// Edge 2 to 1
 				drawEdge(p, 500, 100, 200, 150, 1, 0, "subtract", 20, 0, "add", 0, 20);

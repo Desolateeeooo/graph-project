@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import InteractiveMenuPresentational from './InteractiveMenuPresentational';
 import { useDispatch } from 'react-redux';
 import { IGraph } from '../../Shared/Types/animationComponentSlice_types';
-import { addVertex, toggleDFS } from '../AnimationComponent/animationComponentSlice';
+import { addVertex, toggleDFS, addEdgeReducer } from '../AnimationComponent/animationComponentSlice';
 
 interface IInteractiveMenuContainer {
 	graph: IGraph;
@@ -12,16 +12,38 @@ interface IInteractiveMenuContainer {
 const InteractiveMenuContainer = (props: IInteractiveMenuContainer) => {
 	const dispatch = useDispatch();
 	const [vertexData, setVertexData] = useState('');
+	const [addEdgeTo, setAddEdgeTo] = useState('');
+	const [addEdgeFrom, setAddEdgeFrom] = useState('');
 	
 	const reg = new RegExp('^[0-9]+$');
 
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleOnChangeVertexData = (e: ChangeEvent<HTMLInputElement>) => {
 			if (reg.test(e.currentTarget.value)) {
-				if (vertexData.length < 1) {
+				if (vertexData.length < 2) {
 					setVertexData(e.currentTarget.value);
 				}
 			} else {
 				setVertexData('');
+			}
+    };
+
+		const handleOnChangeAddEdgeTo = (e: ChangeEvent<HTMLInputElement>) => {
+			if (reg.test(e.currentTarget.value)) {
+				if (addEdgeTo.length < 2) {
+					setAddEdgeTo(e.currentTarget.value);
+				}
+			} else {
+				setAddEdgeTo('');
+			}
+    };
+
+		const handleOnChangeAddEdgeFrom = (e: ChangeEvent<HTMLInputElement>) => {
+			if (reg.test(e.currentTarget.value)) {
+				if (addEdgeFrom.length < 2) {
+					setAddEdgeFrom(e.currentTarget.value);
+				}
+			} else {
+				setAddEdgeFrom('');
 			}
     };
 
@@ -34,17 +56,33 @@ const InteractiveMenuContainer = (props: IInteractiveMenuContainer) => {
 		dispatch(addVertex({data: vertexData}))
 	}, [dispatch])
 
-	const handleOnClick = () => {
+	const handleOnAddVertexClick = () => {
 		addVertexHandler(parseInt(vertexData));
 		setVertexData('');
+	}
+
+	const addEdgeHandler = useCallback((from: string, to: string) => {
+		dispatch(addEdgeReducer({from: parseInt(from), to: parseInt(to)}));
+	}, [dispatch]) 
+
+	const handleOnAddEdgeClick = () => {
+		addEdgeHandler(addEdgeFrom, addEdgeTo);
+		setAddEdgeFrom('');
+		setAddEdgeTo('');
+
 	}
 
 	return (
 	<InteractiveMenuPresentational 
 		toggleDFS={handleOnToggleDFS}
-		updateVertexData={handleOnChange}
+		updateVertexData={handleOnChangeVertexData}
 		vertexData={vertexData}
-		handleAddVertex={handleOnClick}
+		handleAddVertex={handleOnAddVertexClick}
+		handleOnChangeAddEdgeTo={handleOnChangeAddEdgeTo}
+		addEdgeToValue={addEdgeTo}
+		handleOnChangeAddEdgeFrom={handleOnChangeAddEdgeFrom}
+		addEdgeFromValue={addEdgeFrom}
+		handleAddEdge={handleOnAddEdgeClick}
 	/>
 	);
 }

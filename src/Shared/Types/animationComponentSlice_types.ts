@@ -7,6 +7,8 @@ export interface IEdge {
 export interface IVertex {
 	data: number;
 	edges: IEdge[];
+	x?: number;
+	y?: number;
 }
 
 export interface IGraph {
@@ -24,3 +26,7 @@ export interface IToggleDFS {
 	depthFirstSearch: boolean;
 }
 
+export interface IAddEdge {
+	from: number;
+	to: number;
+}
