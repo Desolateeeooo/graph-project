@@ -17,7 +17,7 @@ export interface IGraph {
 }
 
 export interface IAddVertex {
-	vertexValue: number;
+	data: number;
 }
 
 export interface IToggleDFS {

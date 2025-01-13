@@ -84,7 +84,12 @@ const animationComponentSlice = createSlice({
   initialState: initialState,
   reducers: {
     addVertex: (state, action: PayloadAction<IAddVertex>) => {
+			const newVertex = {
+				data: action.payload.data,
+				edges: []
+			}
 
+			state.vertices.push(newVertex);
     },
 		toggleDFS: (state) => {
 			return {

@@ -9,6 +9,8 @@ interface IAnimationComponentContainerProps {
 
 const AnimationComponentContainer = (props: IAnimationComponentContainerProps) => {
 	const {graph} = props;
+		
+	console.log(graph.vertices);
 
 	return (
 		<AnimationComponentPresentational 

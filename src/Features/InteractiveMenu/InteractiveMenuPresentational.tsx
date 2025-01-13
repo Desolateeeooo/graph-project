@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent, MouseEventHandler} from 'react';
 import ReactDOM from 'react-dom/client';
 interface IContainer {
 	display: "flex";
@@ -79,7 +79,10 @@ const styles: IStyles = {
 
 interface IInteractiveMenuPresentational {
 	toggleDFS: () => void;
-}
+	updateVertexData: (e: ChangeEvent<HTMLInputElement>) => void;
+	vertexData: string;
+	handleAddVertex: () => void;
+} 
 
 const InteractiveMenuPresentational = (props: IInteractiveMenuPresentational) => {
 	return (
@@ -89,8 +92,8 @@ const InteractiveMenuPresentational = (props: IInteractiveMenuPresentational) =>
 
       <div style={styles.formContainer}>
         <h4>Add Vertex</h4>
-        <input type="text" placeholder="Enter vertex" style={styles.input} />
-        <button style={styles.button}>Add Vertex</button>
+        <input type="text" placeholder="Enter vertex" style={styles.input} onChange={props.updateVertexData} value={props.vertexData}/>
+        <button style={styles.button} onClick={props.handleAddVertex}>Add Vertex</button>
       </div>
 
       <div style={styles.formContainer}>
