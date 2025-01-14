@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import p5 from "p5";
-import { IGraph, IVertex } from "../../../Shared/Types/animationComponentSlice_types";
+import { IEdge, IGraph, IVertex } from "../../../Shared/Types/animationComponentSlice_types";
 import depthFirstTraversal from "../../../Shared/helper_funcs/dfs";
 
 interface GraphProps {
@@ -18,21 +18,31 @@ interface ILineObject {
 	started: boolean;
 }
 
+interface ITraversedEdge {
+	from: {
+			x: number;
+			y: number;
+	};
+	to: {
+			x: number;
+			y: number;
+	};
+};
+
 const Graph: React.FC<GraphProps> = ({ graph }) => {
 	const sketchRef = useRef<HTMLDivElement>(null);
+	const [traversedEdges, setTraversedEdges] = useState<ITraversedEdge[]>([]);
 
 	let speed = 1; // Speed of the line movement
 	let lines: ILineObject[] = []; // Array to store moving line states
 
-	depthFirstTraversal(graph.vertices[0], (vertex: IVertex) => {
-		console.log(vertex.data);
-	});
-
 	const additionalVertexes = graph.vertices.filter((v: IVertex, index: number) => index > 6);
 	console.log(additionalVertexes);
-	
+	const traversedEdgesArr: ITraversedEdge[] = depthFirstTraversal(graph.vertices[0], (vertex) => console.log(vertex.data));
+	console.log(traversedEdgesArr);
 
 	useEffect(() => {
+
 		const sketch = (p: p5) => {
 			p.setup = () => {
 				if (sketchRef.current) {
@@ -85,14 +95,6 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 					p.line(0, 100 + lineY * 100, p.height, 100 + lineY * 100);
 				}
 
-				additionalVertexes.forEach((v: IVertex, index: number) => {
-					// const randomX = p.random(400, 800);
-					// const randomY = p.random(400, 800);
-					if (v.x && v.y) {
-						drawVertex(p, v.x, v.y, 70, index + 7);
-					}
-				})
-
 				// Edge 2 to 1
 				drawEdge(p, 500, 100, 200, 150, 1, 0, "subtract", 20, 0, "add", 0, 20);
 
@@ -126,6 +128,12 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 				// Edge 6 to 7
 				drawEdge(p, 150, 450, 200, 650, 6, 1, "subtract", 20);
 
+				additionalVertexes.forEach((v: IVertex, index1: number) => {
+					v.edges.forEach((e: IEdge, index2: number) => {
+						drawEdge(p, e.start.x, e.start.y, e.end.x, e.end.y, index1 + 7, index2);
+					})
+				})
+
 
 				if (graph.dfs) {
 					// Draw and animate lines with delay
@@ -152,6 +160,14 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 
 				// Vertex 7
 				drawVertex(p, 200, 650, 70, 6);
+
+				additionalVertexes.forEach((v: IVertex, index: number) => {
+					// const randomX = p.random(400, 800);
+					// const randomY = p.random(400, 800);
+					if (v.x && v.y) {
+						drawVertex(p, v.x, v.y, 70, index + 7);
+					}
+				})
 
 			};
 		};
@@ -190,7 +206,7 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 			p.fill(50);
 			p.textSize(14);
 
-			const weight = graph.vertices[verticesIndex]?.edges[edgesIndex]?.weight;
+			let weight = graph.vertices[verticesIndex]?.edges[edgesIndex]?.weight;
 			let x: number = (x1 + x2) / 2;
 			let y: number = (y1 + y2) / 2;
 
@@ -212,7 +228,7 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 
 			if (weight !== null && weight !== undefined) {
 				p.text(
-					weight.toString(),
+					weight,
 					x,
 					y
 				);
@@ -255,7 +271,7 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
 		return () => {
 			myP5.remove();
 		};
-	}, [graph, speed]);
+	}, [graph.vertices, graph.dfs, speed, additionalVertexes]);
 
 	console.log(graph.vertices);
 

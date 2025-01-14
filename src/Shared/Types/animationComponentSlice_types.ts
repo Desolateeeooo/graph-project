@@ -7,8 +7,8 @@ export interface IEdge {
 export interface IVertex {
 	data: number;
 	edges: IEdge[];
-	x?: number;
-	y?: number;
+	x: number;
+	y: number;
 }
 
 export interface IGraph {

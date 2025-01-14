@@ -5,13 +5,13 @@ import { IGraph, IVertex } from "../../Shared/Types/animationComponentSlice_type
 import { createVertex } from "../../Shared/helper_funcs/createVertex";
 import { addEdge } from "../../Shared/helper_funcs/addEdge";
 
-const vertexOne: IVertex = createVertex(1, []);
-const vertexTwo: IVertex = createVertex(2, []);
-const vertexThree: IVertex = createVertex(3, []);
-const vertexFour: IVertex = createVertex(4, []);
-const vertexFive: IVertex = createVertex(5, []);
-const vertexSix: IVertex = createVertex(6, []);
-const vertexSeven: IVertex = createVertex(7, []);
+const vertexOne: IVertex = createVertex(1, [], 200, 150);
+const vertexTwo: IVertex = createVertex(2, [], 500, 100);
+const vertexThree: IVertex = createVertex(3, [], 700, 150);
+const vertexFour: IVertex = createVertex(4, [], 700, 350);
+const vertexFive: IVertex = createVertex(5, [], 450, 350);
+const vertexSix: IVertex = createVertex(6, [], 150, 450);
+const vertexSeven: IVertex = createVertex(7, [], 200, 650);
 
 
 const initialState: IGraph = {
