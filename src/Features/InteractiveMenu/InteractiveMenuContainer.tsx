@@ -1,5 +1,4 @@
-import React, { ChangeEvent, MouseEventHandler, useCallback, useState } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import InteractiveMenuPresentational from './InteractiveMenuPresentational';
 import { useDispatch } from 'react-redux';
 import { IGraph } from '../../Shared/Types/animationComponentSlice_types';

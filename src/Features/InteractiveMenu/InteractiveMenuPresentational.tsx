@@ -1,5 +1,4 @@
-import React, { ChangeEvent, MouseEventHandler } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { ChangeEvent } from 'react';
 interface IContainer {
 	display: "flex";
 	flexDirection: "column";
