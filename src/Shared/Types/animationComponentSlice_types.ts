@@ -22,11 +22,20 @@ export interface IAddVertex {
 	data: number;
 }
 
+export interface IRemoveVertex {
+	data: number;
+}
+
 export interface IToggleDFS {
 	depthFirstSearch: boolean;
 }
 
 export interface IAddEdge {
+	from: number;
+	to: number;
+}
+
+export interface IRemoveEdge {
 	from: number;
 	to: number;
 }

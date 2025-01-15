@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { IAddVertex, IToggleDFS, IAddEdge } from '../../Shared/Types/animationComponentSlice_types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IAddVertex, IAddEdge, IRemoveEdge, IRemoveVertex } from '../../Shared/Types/animationComponentSlice_types';
 import { IGraph, IVertex } from "../../Shared/Types/animationComponentSlice_types";
 import { createVertex } from "../../Shared/helper_funcs/createVertex";
 import { addEdge } from "../../Shared/helper_funcs/addEdge";
+import { removeEdgeFunc } from "../../Shared/helper_funcs/removeEdgeFunc";
 
 const vertexOne: IVertex = createVertex(1, [], 200, 150);
 const vertexTwo: IVertex = createVertex(2, [], 500, 100);
@@ -18,7 +19,7 @@ const initialState: IGraph = {
 	isDirected: false,
 	isWeighted: true,
 	vertices: [
-		vertexOne, vertexTwo, vertexThree, 
+		vertexOne, vertexTwo, vertexThree,
 		vertexFour, vertexFive, vertexSix, vertexSeven
 	],
 	dfs: false
@@ -48,7 +49,7 @@ vertexSix.edges.push(edge2To6[1]);
 const edge2To5 = addEdge(false, vertexTwo, vertexFive, 400);
 vertexTwo.edges.push(edge2To5[0]);
 vertexFive.edges.push(edge2To5[1]);
-	
+
 // Edge from v2 to v3 with weight 300
 const edge2To3 = addEdge(false, vertexTwo, vertexThree, 300);
 vertexTwo.edges.push(edge2To3[0]);
@@ -81,10 +82,10 @@ vertexSeven.edges.push(edge6To7[1]);
 
 
 const animationComponentSlice = createSlice({
-  name: "animationComponent",
-  initialState: initialState,
-  reducers: {
-    addVertex: (state, action: PayloadAction<IAddVertex>) => {
+	name: "animationComponent",
+	initialState: initialState,
+	reducers: {
+		addVertex: (state, action: PayloadAction<IAddVertex>) => {
 			const newVertex = {
 				data: action.payload.data,
 				edges: [],
@@ -93,12 +94,28 @@ const animationComponentSlice = createSlice({
 			}
 
 			state.vertices.push(newVertex);
-    },
+		},
+
+		removeVertex: (state, action: PayloadAction<IRemoveVertex>) => {
+			const vertexIndexToRemove = state.vertices.findIndex(
+				(vertex: IVertex) => vertex.data === action.payload.data
+			);
+
+			if (vertexIndexToRemove === -1) return;
+
+			const vertexToRemove = state.vertices[vertexIndexToRemove];
+
+			state.vertices.forEach((vertex) => {
+				vertex.edges = vertex.edges.filter((edge) => edge.end.data !== vertexToRemove.data);
+			});
+
+			state.vertices = state.vertices.filter((_, index) => index !== vertexIndexToRemove);
+		},
 
 		toggleDFS: (state) => {
 			return {
 				...state,
-				dfs:  state.dfs ? false : true
+				dfs: state.dfs ? false : true
 			}
 		},
 
@@ -111,18 +128,35 @@ const animationComponentSlice = createSlice({
 			const vertexTo = state.vertices[vertexIndexTo];
 
 			if (vertexFrom && vertexTo) {
-				const edge = addEdge(false, vertexFrom , vertexTo, weight);
+				const edge = addEdge(false, vertexFrom, vertexTo, weight);
 				state.vertices[vertexIndexFrom].edges.push(edge[0]);
 				state.vertices[vertexIndexTo].edges.push(edge[1]);
 			}
 		},
-  },
+
+		removeEdge: (state, action: PayloadAction<IRemoveEdge>) => {
+			const { from, to } = action.payload;
+
+			const vertexIndexFrom = state.vertices.findIndex((vertex: IVertex) => vertex.data === from);
+			const vertexIndexTo = state.vertices.findIndex((vertex: IVertex) => vertex.data === to);
+
+			if (vertexIndexFrom !== -1 && vertexIndexTo !== -1) {
+				const vertexFrom = state.vertices[vertexIndexFrom];
+				const vertexTo = state.vertices[vertexIndexTo];
+
+				vertexFrom.edges = removeEdgeFunc(vertexTo, vertexFrom);
+				vertexTo.edges = removeEdgeFunc(vertexFrom, vertexTo);
+			}
+		},
+	},
 });
 
 export const {
 	addVertex,
+	removeVertex,
 	toggleDFS,
 	addEdgeReducer,
+	removeEdge,
 } = animationComponentSlice.actions;
 
 export default animationComponentSlice.reducer;
