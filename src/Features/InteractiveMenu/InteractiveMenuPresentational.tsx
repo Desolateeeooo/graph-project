@@ -33,6 +33,7 @@ interface IInput {
 	fontSize: string;
 	border: string;
 	borderRadius: string;
+	boxSizing: "border-box",
 }
 interface IStyles {
 	container: IContainer;
@@ -73,6 +74,7 @@ const styles: IStyles = {
 		fontSize: "14px",
 		border: "1px solid #ccc",
 		borderRadius: "5px",
+		boxSizing: "border-box",
 	},
 };
 

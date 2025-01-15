@@ -6,14 +6,77 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-	gap: 50px;
+  justify-content: flex-start;
+  padding: 20px;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
+.mainMenu {
+  display: flex;
+  flex-direction: row; /* Side-by-side layout for large screens */
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 800px;
+  max-width: 100%; /* Scale down on smaller screens */
+  aspect-ratio: 1 / 1;
+  background-color: #ffffff;
+  border: 2px solid #cccccc;
+}
+
+.matrices {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1200px;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
 .App-link {
   color: #61dafb;
+}
+
+@media (max-width: 1024px) {
+  .mainMenu {
+    flex-direction: column; /* Stack menu and canvas */
+    align-items: center;
+    gap: 20px;
+  }
+
+  .canvas {
+    width: 90%;
+    height: auto;
+  }
+}
+
+.matrices h3 {
+  margin-bottom: 10px; /* Reduce space below the heading */
+  font-size: 1.2rem; /* Optional: Adjust the heading size if needed */
+  color: #ffffff; /* Optional: Match the theme color */
+}
+
+.matrices div {
+  margin-bottom: 20px; /* Add space between each matrix block */
+}
+
+.matrices table {
+  margin: 0 auto; /* Center-align the matrix tables */
+  border-collapse: collapse;
+}
+
+.matrices td, 
+.matrices th {
+  padding: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
 }

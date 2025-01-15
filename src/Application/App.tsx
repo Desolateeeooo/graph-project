@@ -10,21 +10,27 @@ import GraphMatrices from '../Features/GraphMatrices/GraphMatrices';
 function App() {
 	const graph = useSelector<AppRootState, IGraph>((state) => state.animationComponentSlice);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        {/* <Navigation></Navigation>
+	return (
+		<div className="App">
+			<header className="App-header">
+				{/* <Navigation></Navigation>
 				<Footer></Footer> */}
-				<InteractiveMenuContainer 
-					graph={graph}
-				/>
-				<AnimationComponentContainer 
-					graph={graph}
-				/>
-				<GraphMatrices graph={graph}/>
-      </header>
-    </div>
-  );
+				<div className="mainMenu">
+					<InteractiveMenuContainer
+						graph={graph}
+					/>
+					<div className="canvas">
+					<AnimationComponentContainer
+						graph={graph}
+					/>
+					</div>
+				</div>
+				<div className="matrices">
+					<GraphMatrices graph={graph} />
+				</div>
+			</header>
+		</div>
+	);
 }
 
 export default App;
